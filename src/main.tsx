@@ -4,11 +4,12 @@ import { Router } from './Router.js';
 
 Devvit.configure({
   redditAPI: true,
+  redis:true
 });
 
 // Add a menu item to the subreddit menu for instantiating the new experience post
 Devvit.addMenuItem({
-  label: 'Add my post',
+  label: 'Add a Redogram',
   location: 'subreddit',
   forUserType: 'moderator',
   onPress: async (_event, context) => {
