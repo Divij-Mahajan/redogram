@@ -16,7 +16,7 @@ export default function Home({userId,postId,isModerator,setScreen}:Props) {
         url="logo text.png"
         description="logo image"
       />
-      <button appearance='destructive' onPress={()=>{setScreen("wait")}}>Start Game</button>
+      <button appearance='destructive' onPress={()=>{setScreen("play")}}>Start Game</button>
       <button appearance='destructive'>Leader boards</button>
       
     </vstack>

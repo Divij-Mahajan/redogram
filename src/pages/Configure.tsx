@@ -34,7 +34,7 @@ export default function Configure({userId,postId,isModerator,setScreen,ui,redis}
     }
     function valid(s:string|undefined){
         if(!s)return ""
-        let a="abcdefghijklmnopqrstuvwxyz0123456789";
+        let a="abcdefghijklmnopqrstuvwxyz0123456789 ";
         let z="";
         for(let i=0;i<s.length;i++){
             let b=s[i].toLowerCase()
