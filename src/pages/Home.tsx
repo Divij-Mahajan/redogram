@@ -17,7 +17,13 @@ export default function Home({userId,postId,isModerator,setScreen}:Props) {
         description="logo image"
       />
       <button appearance='destructive' onPress={()=>{setScreen("play")}}>Start Game</button>
-      <button appearance='destructive'>Leader boards</button>
+      <button appearance='destructive' onPress={()=>{
+        //ui.showForm(fillForm)
+        
+        //queryMap[keyMap[w]]=returnVal
+        console.log("hiiii")
+        //if(check())ui.showToast("You solved it!!")
+    }}>Leader boards</button>
       
     </vstack>
 }

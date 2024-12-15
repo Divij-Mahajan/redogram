@@ -25,7 +25,7 @@ export default function Play({userId,postId,isModerator,setScreen,ui,redis}:Prop
     const [current, setCurrent] = useState(0)
     return <vstack width="100%" height="100%" alignment='center top' padding='small'>
         <Header total={data?.length} current={current} user={round} setCurrent={setCurrent}/>
-        <Redogram redis={redis} ui={ui} data={data} current={current} postId={postId} userId={userId} />
+        <Redogram redis={redis} ui={ui} data={data} current={current} postId={postId} userId={userId} setCurrent={setCurrent}/>
         
     </vstack>
 }

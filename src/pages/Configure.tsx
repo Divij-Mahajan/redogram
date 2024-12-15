@@ -10,14 +10,14 @@ interface Props {
 }
 
 export default function Configure({userId,postId,isModerator,setScreen,ui,redis}:Props) {
-    const [questions, setQuestions] = useState([])
+    const [questions, setQuestions] = useState<string[]>([])
     let phraseForm=useForm(
         {
         fields: [
             {
             type: 'string',
             name: 'phrase',
-            label: 'Phrase (Not case sensitive, only alphanumeric values):',
+            label: 'Phrase (case insensitive, only alphanumeric values and spaces, max 70 characters):',
             },
         ],
         },
@@ -35,10 +35,15 @@ export default function Configure({userId,postId,isModerator,setScreen,ui,redis}
     function valid(s:string|undefined){
         if(!s)return ""
         let a="abcdefghijklmnopqrstuvwxyz0123456789 ";
+        let i=0;
         let z="";
         for(let i=0;i<s.length;i++){
             let b=s[i].toLowerCase()
-            if(a.includes(b))z+=b
+            if(a.includes(b)){
+                z+=b
+                i++;
+                if(i==80)break
+            }
         }
         return z;
     }
