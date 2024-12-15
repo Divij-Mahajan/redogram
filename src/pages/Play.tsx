@@ -1,6 +1,7 @@
 import { Devvit, Listing, useAsync, useForm, useState } from '@devvit/public-api';
 import Header from '../components/header.js';
 import Redogram from '../components/redogram.js';
+import Win from '../components/win.js';
 
 interface Props {
     userId: string;  
@@ -12,11 +13,19 @@ interface Props {
 }
 
 export default function Play({userId,postId,isModerator,setScreen,ui,redis}:Props) {
-    let round=useAsync(async()=>{
+    const [round, setRound] = useState<number>(
+    async()=>{
         let f=await redis.get(postId+userId+"round");
-        if(f)return JSON.parse(f);
-        else return 3;
-        }).data;
+        if(f){
+            return (JSON.parse(f));
+        }
+        else {
+            await redis.set(postId+userId+"round",JSON.stringify(1));
+            return (1);
+        }
+    })
+
+    
     let data:Array<any>=useAsync(async()=>{
         let f=await redis.get(postId+"rounds");
         if(f)return JSON.parse(f);
@@ -25,7 +34,10 @@ export default function Play({userId,postId,isModerator,setScreen,ui,redis}:Prop
     const [current, setCurrent] = useState(0)
     return <vstack width="100%" height="100%" alignment='center top' padding='small'>
         <Header total={data?.length} current={current} user={round} setCurrent={setCurrent}/>
-        <Redogram redis={redis} ui={ui} data={data} current={current} postId={postId} userId={userId} setCurrent={setCurrent}/>
+        {(current==data?.length)?
+        <Win setCurrent={setCurrent}></Win>
+        :<Redogram redis={redis} ui={ui} data={data} current={current} postId={postId} round={round} userId={userId} setCurrent={setCurrent} setRound={setRound}/>
+    }
         
     </vstack>
 }

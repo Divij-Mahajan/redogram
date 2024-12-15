@@ -35,14 +35,14 @@ export default function Configure({userId,postId,isModerator,setScreen,ui,redis}
     function valid(s:string|undefined){
         if(!s)return ""
         let a="abcdefghijklmnopqrstuvwxyz0123456789 ";
-        let i=0;
         let z="";
+        let j=0
         for(let i=0;i<s.length;i++){
             let b=s[i].toLowerCase()
             if(a.includes(b)){
                 z+=b
-                i++;
-                if(i==80)break
+                j++;
+                if(j==80)break
             }
         }
         return z;

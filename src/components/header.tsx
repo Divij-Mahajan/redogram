@@ -27,7 +27,7 @@ export default function Header({total,current,user,setCurrent}:Props) {
             }}>{"<"}</button>
             
             <button  appearance='destructive' onPress={()=>{
-                if(current<user)setCurrent(current+1)
+                if(current<user-1)setCurrent(current+1)
             }}>{">"}</button>
         </hstack>
     </hstack>

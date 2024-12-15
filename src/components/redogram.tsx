@@ -7,26 +7,31 @@ interface Props {
     redis:any;
     data:any;
     current:number;
+    round:number;
     setCurrent:Function;
+    setRound:Function;
 }
 
-export default function Redogram({userId,postId,ui,redis,data,current,setCurrent}:Props) {
+export default function Redogram({userId,postId,ui,redis,round,data,current,setCurrent,setRound}:Props) {
     let fillForm=useForm((data)=>({
         fields: data.fields,
         title: data.title,
-    }),(values) => {
+    }),async (values) => {
         let q=Object.keys(values)[0]
         let qm=queryMap
         qm[q]=values[q]
         setQueryMap(qm)
         if(check()){
             ui.showToast("Congratulations you have completed")
+            await redis.set(postId+userId+"round",JSON.stringify(current+2));
+            setRound(current+2)
             setCurrent(current+1)
             let qm:{ [key: string]: string }={}
             for(let i=0;i<a.length;i++){
                 qm[a[i]]="";
             }
             setQueryMap(qm)
+
         }
     })
     
@@ -80,15 +85,29 @@ export default function Redogram({userId,postId,ui,redis,data,current,setCurrent
         return true;
     }
 
-    return <vstack width="100%" height="100%" padding='small' >
-        <vstack gap='medium'> 
+    return <vstack width="100%" height="100%" padding='small' alignment='middle'>
+        <spacer grow></spacer>
+        <vstack gap='medium' > 
         {phrase.map((p:string,i:number)=>{
             return <hstack gap='medium' width="100%" alignment='center' grow> 
                 {p?.split("").map((w:string,i:number)=>{
                     if(w==" "){
                         return <spacer />
                     }
+                    if(current<round-1){
+                        return <vstack width="5%">
+                            <vstack width="100%" height="40px" border='thin' alignment='center middle' borderColor='white' >
+                                <spacer grow></spacer>
+                                <spacer grow></spacer>
+                                    <text width="100%" height="100%"  size='large' alignment='center bottom'>{w}</text>
+                            </vstack>
+                            <spacer></spacer>
+                            <text size='large' width="100%" alignment='center'>{keyMap[w].toUpperCase()}</text>
+                        </vstack>
+                    }
+                    
                     return <vstack width="5%">
+                        
                         <vstack width="100%" height="40px" border='thin' alignment='center middle' borderColor='white' onPress={async()=>{
                             ui.showForm(fillForm, {
                                 fields: [{ type: 'string', name: `${keyMap[w]}`, label: `Enter Value of ${keyMap[w]} (1 character):` }],
@@ -108,5 +127,8 @@ export default function Redogram({userId,postId,ui,redis,data,current,setCurrent
         })}
         
         </vstack>
+        <spacer grow></spacer>
+        <spacer grow></spacer>
+        
     </vstack>
 }
