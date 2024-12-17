@@ -13,7 +13,7 @@ export default function Header({total,current,user,setCurrent}:Props) {
     for(let i=0;i<total;i++){
         l.push("_")
     }
-    return <hstack alignment='center middle' width="100%" padding='small'>
+    return <hstack alignment='center top' width="100%" padding='small'>
             <spacer grow/>
             <spacer />
         <hstack gap='small'>
@@ -26,8 +26,8 @@ export default function Header({total,current,user,setCurrent}:Props) {
                 }
                 return <text size='xxlarge' style='heading' color={i<user-1?"#FF3F18":"#FFFFFF"}>_</text>
             })}
-             <vstack alignment='center'>
-                <spacer grow></spacer>
+             <vstack >
+                <spacer ></spacer>
                     <icon name="contest" color={user==total+1?"#FF3F18":"#FFFFFF"}></icon>
                     {current==total?
                     <text size='xxlarge' style='heading' color="#FF3F18">^</text>:<></>

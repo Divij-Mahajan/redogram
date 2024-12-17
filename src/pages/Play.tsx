@@ -31,11 +31,18 @@ export default function Play({userId,postId,isModerator,setScreen,ui,redis}:Prop
         if(f)return JSON.parse(f);
         else return [];
         }).data;
+    
+    let reward=useAsync(async()=>{
+        let f=await redis.get(postId+"reward");
+        if(f)return JSON.parse(f);
+        else return [];
+        }).data;
+    
     const [current, setCurrent] = useState(0)
     return <vstack width="100%" height="100%" alignment='center top' padding='small'>
         <Header total={data?.length} current={current} user={round} setCurrent={setCurrent}/>
         {(current==data?.length)?
-        <Win setCurrent={setCurrent}></Win>
+        <Win setCurrent={setCurrent} rewardPhrase={reward||""}></Win>
         :<Redogram redis={redis} ui={ui} data={data} current={current} postId={postId} round={round} userId={userId} setCurrent={setCurrent} setRound={setRound}/>
     }
         
